@@ -124,7 +124,8 @@ form.addEventListener('submit', async (e) => {
       return;
     }
 
-    showPreview(data, formData.businessName);
+    completeLoaderSteps();
+    setTimeout(() => showPreview(data, formData.businessName), 400);
   } catch (err) {
     showForm();
     showError('Erreur réseau. Vérifiez votre connexion et réessayez.');
@@ -230,15 +231,28 @@ function showError(msg) {
 }
 
 // ---- Loader animation ----
+let loaderTimers = [];
+
 function animateLoaderSteps() {
   const steps = ['step-1', 'step-2', 'step-3', 'step-4'];
-  const delays = [0, 4000, 9000, 13000];
+  const delays = [0, 1500, 3000, 4500];
 
-  steps.forEach((id, i) => {
+  loaderTimers = steps.map((id, i) =>
     setTimeout(() => {
       if (i > 0) document.getElementById(steps[i - 1])?.classList.replace('active', 'done');
       document.getElementById(id)?.classList.add('active');
-    }, delays[i]);
+    }, delays[i])
+  );
+}
+
+function completeLoaderSteps() {
+  loaderTimers.forEach(t => clearTimeout(t));
+  const steps = ['step-1', 'step-2', 'step-3', 'step-4'];
+  steps.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.remove('active');
+    el.classList.add('done');
   });
 }
 

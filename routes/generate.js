@@ -82,14 +82,27 @@ router.post('/generate', validationRules, async (req, res) => {
   }
 });
 
-// GET /api/preview/:id
+// GET /api/preview/:id → redirect vers /index.html pour que les assets relatifs fonctionnent
 router.get('/preview/:id', (req, res) => {
   const id = sanitizeId(req.params.id);
   if (!id) return res.status(400).send('ID invalide');
+  res.redirect(`/api/preview/${id}/index.html`);
+});
 
+router.get('/preview/:id/index.html', (req, res) => {
+  const id = sanitizeId(req.params.id);
+  if (!id) return res.status(400).send('ID invalide');
   const filePath = path.join(__dirname, '..', 'tmp', id, 'index.html');
   if (!fs.existsSync(filePath)) return res.status(404).send('Aperçu non trouvé');
+  res.sendFile(filePath);
+});
 
+router.get('/preview/:id/assets/:file', (req, res) => {
+  const id = sanitizeId(req.params.id);
+  if (!id) return res.status(400).send('ID invalide');
+  const file = req.params.file.replace(/[^a-zA-Z0-9._-]/g, '');
+  const filePath = path.join(__dirname, '..', 'tmp', id, 'assets', file);
+  if (!fs.existsSync(filePath)) return res.status(404).send('Non trouvé');
   res.sendFile(filePath);
 });
 
