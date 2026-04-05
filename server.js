@@ -12,6 +12,8 @@ const generateRouter = require('./routes/generate');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.set('trust proxy', 1);
+
 // Sécurité
 app.use(helmet({
   contentSecurityPolicy: {
@@ -36,6 +38,9 @@ const apiLimiter = rateLimit({
 
 app.use(express.json({ limit: '50kb' }));
 app.use(express.urlencoded({ extended: true, limit: '50kb' }));
+
+// Health check
+app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
 // Routes API
 app.use('/api', apiLimiter, generateRouter);
