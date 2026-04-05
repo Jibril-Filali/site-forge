@@ -5,7 +5,6 @@ const { body, validationResult } = require('express-validator');
 const archiver = require('archiver');
 const path = require('path');
 const fs = require('fs');
-const { v4: uuidv4 } = require('uuid');
 const { generateSiteContent } = require('../services/claudeService');
 const { buildSite } = require('../services/siteBuilder');
 const { NICHES } = require('../data/niches');
@@ -58,7 +57,7 @@ router.post('/generate', validationRules, async (req, res) => {
     if (!aiContent) throw new Error('generateSiteContent returned null');
     aiContent.niche = niche;
 
-    const sessionId = uuidv4();
+    const sessionId = crypto.randomUUID();
     buildSite(sessionId, aiContent, formData, niche);
 
     res.json({
