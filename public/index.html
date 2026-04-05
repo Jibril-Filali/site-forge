@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SiteForge — Générateur de sites vitrine</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="app-header">
+  <div class="app-header-inner">
+    <div class="app-logo">SiteForge</div>
+    <p class="app-tagline">Générez des sites vitrines professionnels en quelques secondes</p>
+  </div>
+</header>
+
+<main class="app-main">
+
+  <!-- FORMULAIRE -->
+  <div id="form-view" class="form-container">
+    <form id="generator-form" novalidate>
+
+      <!-- Etape 1 : Niche -->
+      <div class="form-section">
+        <div class="form-section-header">
+          <span class="step-badge">1</span>
+          <div>
+            <h2>Secteur d'activité</h2>
+            <p>Choisissez la niche pour personnaliser le contenu et le message</p>
+          </div>
+        </div>
+        <div class="field">
+          <label for="nicheId">Niche <span class="required">*</span></label>
+          <select id="nicheId" name="nicheId" required>
+            <option value="">— Sélectionnez une niche —</option>
+            <optgroup label="BTP / Rénovation">
+              <option value="paysagiste">Paysagiste</option>
+              <option value="renovation">Entreprise de rénovation générale</option>
+              <option value="couvreur">Couvreur (toiture)</option>
+              <option value="climatisation">Climatisation / Chauffage</option>
+              <option value="menuiserie">Menuiserie haut de gamme</option>
+              <option value="isolation">Isolation thermique / Rénovation énergétique</option>
+            </optgroup>
+            <optgroup label="Services aux particuliers">
+              <option value="architecte">Architecte (cabinet)</option>
+              <option value="gestion_patrimoine">Gestion de patrimoine (CGP)</option>
+              <option value="deratisation">Dératisation / Désinsectisation</option>
+              <option value="animaux">Services aux animaux</option>
+              <option value="coach">Coach (sport, business, santé)</option>
+            </optgroup>
+            <optgroup label="Santé / Bien-être">
+              <option value="dentiste">Clinique dentaire</option>
+              <option value="clinique_esthetique">Clinique esthétique / médicale</option>
+              <option value="kine">Centre de kinésithérapie</option>
+              <option value="salle_sport">Salle de sport premium / studio</option>
+            </optgroup>
+            <optgroup label="Services B2B">
+              <option value="expert_comptable">Cabinet d'expertise-comptable</option>
+              <option value="cabinet_recrutement">Cabinet de recrutement spécialisé</option>
+              <option value="bureau_etudes">Bureau d'études</option>
+              <option value="cabinet_conseil">Cabinet de conseil B2B</option>
+              <option value="transport_b2b">Transport B2B / Logistique</option>
+              <option value="saas">SaaS / Startup structurée</option>
+              <option value="agence_com">Agence de branding / communication</option>
+            </optgroup>
+            <optgroup label="Formation">
+              <option value="centre_formation">Centre de formation / École privée</option>
+            </optgroup>
+            <optgroup label="Loisirs / Hôtellerie">
+              <option value="hotel">Hôtel 4 étoiles et plus</option>
+              <option value="escape_game">Escape game / Salle de loisirs</option>
+            </optgroup>
+          </select>
+        </div>
+        <div id="niche-tip" class="niche-tip" hidden>
+          <span class="tip-icon">💡</span>
+          <span id="niche-tip-text"></span>
+        </div>
+      </div>
+
+      <!-- Etape 2 : Identité -->
+      <div class="form-section">
+        <div class="form-section-header">
+          <span class="step-badge">2</span>
+          <div>
+            <h2>Identité de l'entreprise</h2>
+            <p>Ces infos seront au cœur du contenu généré</p>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="businessName">Nom de l'entreprise <span class="required">*</span></label>
+            <input type="text" id="businessName" name="businessName" placeholder="Ex: Jardins Dupont" maxlength="100" required>
+          </div>
+          <div class="field">
+            <label for="ownerName">Nom du dirigeant</label>
+            <input type="text" id="ownerName" name="ownerName" placeholder="Ex: Jean Dupont" maxlength="100">
+          </div>
+        </div>
+        <div class="field">
+          <label for="tagline">Slogan / Accroche</label>
+          <input type="text" id="tagline" name="tagline" placeholder="Ex: L'expertise au service de votre jardin" maxlength="200">
+        </div>
+        <div class="field">
+          <label for="description">Description de l'activité <span class="required">*</span></label>
+          <textarea id="description" name="description" rows="4" maxlength="1000" placeholder="Décrivez l'entreprise, son ancienneté, sa zone d'intervention, ses points forts..."></textarea>
+          <span class="field-hint"><span id="desc-count">0</span>/1000 caractères</span>
+        </div>
+      </div>
+
+      <!-- Etape 3 : Services -->
+      <div class="form-section">
+        <div class="form-section-header">
+          <span class="step-badge">3</span>
+          <div>
+            <h2>Services proposés</h2>
+            <p>Liste des prestations principales (au moins 3 recommandés)</p>
+          </div>
+        </div>
+        <div id="services-list">
+          <div class="service-row">
+            <input type="text" name="services[]" placeholder="Ex: Aménagement de jardins" maxlength="80">
+            <button type="button" class="btn-remove-service" aria-label="Supprimer">×</button>
+          </div>
+          <div class="service-row">
+            <input type="text" name="services[]" placeholder="Ex: Entretien gazon" maxlength="80">
+            <button type="button" class="btn-remove-service" aria-label="Supprimer">×</button>
+          </div>
+          <div class="service-row">
+            <input type="text" name="services[]" placeholder="Ex: Création de terrasses" maxlength="80">
+            <button type="button" class="btn-remove-service" aria-label="Supprimer">×</button>
+          </div>
+        </div>
+        <button type="button" id="add-service" class="btn-add">+ Ajouter un service</button>
+      </div>
+
+      <!-- Etape 4 : Coordonnées -->
+      <div class="form-section">
+        <div class="form-section-header">
+          <span class="step-badge">4</span>
+          <div>
+            <h2>Coordonnées</h2>
+            <p>Informations de contact affichées sur le site</p>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="city">Ville / Zone d'intervention <span class="required">*</span></label>
+            <input type="text" id="city" name="city" placeholder="Ex: Lyon et région Auvergne-Rhône-Alpes" maxlength="100" required>
+          </div>
+          <div class="field">
+            <label for="phone">Téléphone</label>
+            <input type="tel" id="phone" name="phone" placeholder="Ex: 06 12 34 56 78" maxlength="20">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="contact@entreprise.fr" maxlength="100">
+          </div>
+          <div class="field">
+            <label for="address">Adresse</label>
+            <input type="text" id="address" name="address" placeholder="Ex: 12 rue de la Paix, 69001 Lyon" maxlength="200">
+          </div>
+        </div>
+      </div>
+
+      <!-- Etape 5 : Couleur -->
+      <div class="form-section">
+        <div class="form-section-header">
+          <span class="step-badge">5</span>
+          <div>
+            <h2>Couleur principale</h2>
+            <p>Couleur qui définit l'identité visuelle du site</p>
+          </div>
+        </div>
+        <div class="color-picker-row">
+          <input type="color" id="primaryColor" name="primaryColor" value="#2563eb">
+          <label for="primaryColor">Choisir une couleur</label>
+          <div class="color-presets">
+            <button type="button" class="color-preset" data-color="#2563eb" style="background:#2563eb" title="Bleu professionnel"></button>
+            <button type="button" class="color-preset" data-color="#16a34a" style="background:#16a34a" title="Vert nature"></button>
+            <button type="button" class="color-preset" data-color="#dc2626" style="background:#dc2626" title="Rouge énergie"></button>
+            <button type="button" class="color-preset" data-color="#7c3aed" style="background:#7c3aed" title="Violet premium"></button>
+            <button type="button" class="color-preset" data-color="#0891b2" style="background:#0891b2" title="Bleu ciel"></button>
+            <button type="button" class="color-preset" data-color="#d97706" style="background:#d97706" title="Ambre chaleureux"></button>
+            <button type="button" class="color-preset" data-color="#0f172a" style="background:#0f172a" title="Noir élégant"></button>
+            <button type="button" class="color-preset" data-color="#be185d" style="background:#be185d" title="Rose luxe"></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="form-submit">
+        <button type="submit" id="generate-btn" class="btn-generate">
+          <span class="btn-icon">⚡</span>
+          Générer le site
+        </button>
+        <p class="submit-note">Génération en ~15 secondes via intelligence artificielle</p>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- LOADER -->
+  <div id="loader-view" class="loader-view" hidden>
+    <div class="loader-content">
+      <div class="loader-spinner"></div>
+      <h2>Génération en cours...</h2>
+      <p id="loader-step">Analyse de la niche et des informations...</p>
+      <div class="loader-steps">
+        <div class="loader-step-item" id="step-1">Analyse des informations</div>
+        <div class="loader-step-item" id="step-2">Génération du contenu IA</div>
+        <div class="loader-step-item" id="step-3">Assemblage des pages</div>
+        <div class="loader-step-item" id="step-4">Finalisation du site</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PREVIEW -->
+  <div id="preview-view" class="preview-view" hidden>
+    <div class="preview-toolbar">
+      <div class="preview-toolbar-left">
+        <button id="back-btn" class="btn-back">← Nouveau site</button>
+        <span id="preview-title" class="preview-title"></span>
+      </div>
+      <div class="preview-toolbar-right">
+        <div class="device-btns">
+          <button class="device-btn active" data-device="desktop" title="Bureau">🖥️</button>
+          <button class="device-btn" data-device="tablet" title="Tablette">📱</button>
+          <button class="device-btn" data-device="mobile" title="Mobile">📲</button>
+        </div>
+        <a id="download-btn" href="#" class="btn-download">Télécharger le ZIP</a>
+      </div>
+    </div>
+    <div class="preview-wrapper">
+      <iframe id="preview-frame" class="preview-frame" title="Aperçu du site généré"></iframe>
+    </div>
+  </div>
+
+</main>
+
+<script src="js/app.js"></script>
+</body>
+</html>
