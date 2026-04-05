@@ -234,8 +234,37 @@
         <a id="download-btn" href="#" class="btn-download">Télécharger le ZIP</a>
       </div>
     </div>
-    <div class="preview-wrapper">
-      <iframe id="preview-frame" class="preview-frame" title="Aperçu du site généré"></iframe>
+    <div class="preview-body">
+      <aside class="preview-sidebar" id="preview-sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-badge" id="sidebar-niche"></div>
+          <h3 id="sidebar-business-name"></h3>
+          <p id="sidebar-owner-name" class="sidebar-owner"></p>
+          <p id="sidebar-city" class="sidebar-city"></p>
+        </div>
+        <div class="sidebar-section" id="sidebar-desc-section">
+          <div class="sidebar-label">Description</div>
+          <p id="sidebar-description"></p>
+        </div>
+        <div class="sidebar-section" id="sidebar-services-section">
+          <div class="sidebar-label">Services</div>
+          <ul id="sidebar-services"></ul>
+        </div>
+        <div class="sidebar-section" id="sidebar-contact-section">
+          <div class="sidebar-label">Contact</div>
+          <div id="sidebar-contact"></div>
+        </div>
+        <div class="sidebar-section">
+          <div class="sidebar-label">Couleur</div>
+          <div class="sidebar-color-row">
+            <span id="sidebar-color-swatch" class="sidebar-color-swatch"></span>
+            <span id="sidebar-color-value" class="sidebar-color-code"></span>
+          </div>
+        </div>
+      </aside>
+      <div class="preview-wrapper">
+        <iframe id="preview-frame" class="preview-frame" title="Aperçu du site généré"></iframe>
+      </div>
     </div>
   </div>
 

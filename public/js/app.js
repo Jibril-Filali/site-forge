@@ -125,7 +125,7 @@ form.addEventListener('submit', async (e) => {
     }
 
     completeLoaderSteps();
-    setTimeout(() => showPreview(data, formData.businessName), 400);
+    setTimeout(() => showPreview(data, formData), 400);
   } catch (err) {
     showForm();
     showError('Erreur réseau. Vérifiez votre connexion et réessayez.');
@@ -211,15 +211,76 @@ function showForm() {
   previewView.hidden = true;
 }
 
-function showPreview(data, businessName) {
+function showPreview(data, formData) {
   formView.hidden = true;
   loaderView.hidden = true;
   previewView.hidden = false;
 
-  previewTitle.textContent = businessName;
+  previewTitle.textContent = formData.businessName;
   previewFrame.src = data.preview_url;
   previewFrame.className = 'preview-frame device-desktop';
   downloadBtn.href = data.download_url;
+
+  populateSidebar(formData);
+}
+
+function populateSidebar(formData) {
+  // Niche label from select text
+  const selectedOption = nicheSelect.options[nicheSelect.selectedIndex];
+  document.getElementById('sidebar-niche').textContent = selectedOption ? selectedOption.text : formData.nicheId;
+
+  // Identity
+  document.getElementById('sidebar-business-name').textContent = formData.businessName;
+  const ownerEl = document.getElementById('sidebar-owner-name');
+  ownerEl.textContent = formData.ownerName || '';
+  ownerEl.hidden = !formData.ownerName;
+
+  document.getElementById('sidebar-city').textContent = formData.city;
+
+  // Description
+  const descSection = document.getElementById('sidebar-desc-section');
+  if (formData.description) {
+    document.getElementById('sidebar-description').textContent = formData.description;
+    descSection.hidden = false;
+  } else {
+    descSection.hidden = true;
+  }
+
+  // Services
+  const servicesSection = document.getElementById('sidebar-services-section');
+  const services = (formData.services || []).filter(Boolean);
+  if (services.length > 0) {
+    const ul = document.getElementById('sidebar-services');
+    ul.innerHTML = '';
+    services.forEach(s => {
+      const li = document.createElement('li');
+      li.textContent = s;
+      ul.appendChild(li);
+    });
+    servicesSection.hidden = false;
+  } else {
+    servicesSection.hidden = true;
+  }
+
+  // Contact
+  const contactSection = document.getElementById('sidebar-contact-section');
+  const contacts = [];
+  if (formData.phone) contacts.push(['Tel', formData.phone]);
+  if (formData.email) contacts.push(['Email', formData.email]);
+  if (formData.address) contacts.push(['Adresse', formData.address]);
+  if (contacts.length > 0) {
+    document.getElementById('sidebar-contact').innerHTML = contacts
+      .map(([label, val]) =>
+        `<div class="sidebar-contact-item"><span class="sidebar-contact-label">${escHtml(label)}</span><span>${escHtml(val)}</span></div>`
+      ).join('');
+    contactSection.hidden = false;
+  } else {
+    contactSection.hidden = true;
+  }
+
+  // Color
+  document.getElementById('sidebar-color-swatch').style.background = formData.primaryColor;
+  document.getElementById('sidebar-color-value').textContent = formData.primaryColor;
 }
 
 function showError(msg) {
