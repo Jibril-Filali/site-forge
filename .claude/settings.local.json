@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rm:*)",
+      "Bash(cmd:*)",
+      "WebFetch(domain:lesportesdelisba.fr)",
+      "Bash(python3 -c \" import os, re emoji_pattern = re.compile\\('[^\\\\x00-\\\\x7F\\\\x80-\\\\xFF]'\\) files = ['index.html','qui-sommes-nous.html','nos-tarifs.html','nous-contacter.html','team-building.html'] for f in files: if os.path.exists\\(f\\): with open\\(f, encoding='utf-8', errors='ignore'\\) as fp: for i,line in enumerate\\(fp,1\\): if emoji_pattern.search\\(line\\): print\\(f'{f}:{i}: {line.rstrip\\(\\)[:100]}'\\) \")",
+      "Bash(where node:*)",
+      "Bash(node -e ':*)"
+    ]
+  }
+}

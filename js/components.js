@@ -68,8 +68,12 @@ const FOOTER_HTML = `
           Une équipe, une salle, une heure : votre aventure.
         </p>
         <div class="footer-socials">
-          <a href="https://www.facebook.com/escapegameLIsba" target="_blank" rel="noopener" class="footer-social footer-social--fb" title="Facebook">Fb</a>
-          <a href="https://www.instagram.com/lesportesdelisba" target="_blank" rel="noopener" class="footer-social footer-social--ig" title="Instagram">Ig</a>
+          <a href="https://www.facebook.com/escapegameLIsba" target="_blank" rel="noopener" class="footer-social" title="Facebook" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/lesportesdelisba" target="_blank" rel="noopener" class="footer-social" title="Instagram" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
         </div>
       </div>
 
@@ -115,7 +119,7 @@ const FOOTER_HTML = `
 
     <div class="footer-bottom">
       <span>© ${new Date().getFullYear()} Les Portes de l'Isba. Tous droits réservés.</span>
-      <span>Site conçu par <a href="#" style="color:var(--gold);transition:opacity .2s;" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">Jibzz</a></span>
+      <span>Site conçu par <a href="https://jibzz.fr" target="_blank" rel="noopener" style="color:var(--gold);transition:opacity .2s;" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">Jibzz</a></span>
     </div>
   </div>
 </footer>

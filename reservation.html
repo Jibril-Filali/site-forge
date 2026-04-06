@@ -136,11 +136,11 @@
                 <label class="form-label">Nombre de joueurs *</label>
                 <select class="form-select" id="res-players" required>
                   <option value="">Sélectionnez</option>
-                  <option value="2">2 joueurs — 52 €</option>
-                  <option value="3">3 joueurs — 60 €</option>
-                  <option value="4">4 joueurs — 68 €</option>
-                  <option value="5">5 joueurs — 75 €</option>
-                  <option value="6">6 joueurs — 84 €</option>
+                  <option value="2">2 joueurs — 80 €</option>
+                  <option value="3">3 joueurs — 90 €</option>
+                  <option value="4">4 joueurs — 104 €</option>
+                  <option value="5">5 joueurs — 120 €</option>
+                  <option value="6">6 joueurs — 132 €</option>
                 </select>
               </div>
             </div>
@@ -272,7 +272,7 @@
     const room = document.querySelector('input[name="res-room"]:checked');
     const date = document.getElementById('res-date');
     const players = document.getElementById('res-players');
-    const prices = { '2':52,'3':60,'4':68,'5':75,'6':84 };
+    const prices = { '2':80,'3':90,'4':104,'5':120,'6':132 };
 
     if (room) document.getElementById('recap-room').textContent = roomLabels[room.value] || room.value;
     if (date && date.value) {

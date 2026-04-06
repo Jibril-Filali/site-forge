@@ -36,17 +36,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* ---- Scroll reveal ---- */
+  /* ---- Scroll reveal (bidirectionnel) ---- */
   const revealEls = document.querySelectorAll('.reveal');
   if (revealEls.length > 0) {
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
+        } else {
+          entry.target.classList.remove('visible');
         }
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
     revealEls.forEach(el => observer.observe(el));
   }
@@ -103,11 +104,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const priceDisplay  = document.getElementById('res-price');
 
     const PRICES = {
-      '2': 52,
-      '3': 60,
-      '4': 68,
-      '5': 75,
-      '6': 84
+      '2': 80,
+      '3': 90,
+      '4': 104,
+      '5': 120,
+      '6': 132
     };
 
     const updatePrice = () => {
