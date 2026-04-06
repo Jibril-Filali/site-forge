@@ -119,7 +119,7 @@ const FOOTER_HTML = `
 
     <div class="footer-bottom">
       <span>© ${new Date().getFullYear()} Les Portes de l'Isba. Tous droits réservés.</span>
-      <span>Site conçu par <a href="https://jibzz.fr" target="_blank" rel="noopener" style="color:var(--gold);transition:opacity .2s;" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">Jibzz</a></span>
+      <span>Site conçu par <a href="https://jibril-filali.github.io" target="_blank" rel="noopener" style="color:var(--gold);transition:opacity .2s;" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">Jibzz</a></span>
     </div>
   </div>
 </footer>
