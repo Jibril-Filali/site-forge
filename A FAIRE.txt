@@ -2,17 +2,8 @@ A FAIRE :
 
 
 Mettre les photos des activités
-
-Implentation du lieu google map
-
-Annimation progressif qui se reload quand tu scroll en descendant ou remontant
-
-Enlever tout les emojis et les - donc /humanizer
-
-Verifier les bons tarifs
-
-Fait par Jibzz + Lien en direction de mon porfolio
-
+Mettre le google map en couleurs pas en noir et blanc 
+Pourquoi pas mettre des effets dans le theme 
 Photos à rajouter : 
 
 Photos isba
