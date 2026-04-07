@@ -133,8 +133,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (headerSlot) headerSlot.innerHTML = HEADER_HTML;
   if (footerSlot)  footerSlot.innerHTML = FOOTER_HTML;
 
-  // Active link
+  // Sticky CTA mobile (masqué sur la page réservation)
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  if (currentPage !== 'reservation.html') {
+    const sticky = document.createElement('div');
+    sticky.id = 'mobile-sticky-cta';
+    sticky.innerHTML = '<a href="reservation.html" class="btn btn-gold" style="width:100%;justify-content:center;">Réserver</a>';
+    document.body.appendChild(sticky);
+  }
   document.querySelectorAll('.nav-link, .nav-mobile-link, .footer-link').forEach(link => {
     const href = link.getAttribute('href');
     if (href && href === currentPage) link.classList.add('active');
