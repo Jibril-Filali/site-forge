@@ -10,11 +10,7 @@
   const loader = document.createElement('div');
   loader.id = 'page-loader';
   loader.innerHTML =
-    '<svg class="loader-icon" width="52" height="52" viewBox="0 0 24 24" fill="none"' +
-    ' stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' +
-    '<path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777z"/>' +
-    '<path d="M15.5 7.5l3 3L22 7l-3-3"/><path d="M11.89 11.89L15.5 7.5"/>' +
-    '</svg>' +
+    '<img src="images/Logo.jpg" class="loader-logo" alt="Les Portes de l\'Isba">' +
     '<div class="loader-text">' +
       '<div class="loader-brand">Les Portes de l\'Isba</div>' +
       '<div class="loader-sub">Escape Game · Troyes</div>' +
@@ -241,46 +237,6 @@ document.addEventListener('DOMContentLoaded', () => {
     cb.querySelector('.cookie-btn-accept').addEventListener('click', () => dismissCookie('accepted'));
     cb.querySelector('.cookie-btn-refuse').addEventListener('click', () => dismissCookie('refused'));
   }
-
-  // ---- Social proof ----
-  var spData = [
-    { name: 'Sophie M.',   initial: 'S', action: 'vient de réserver Athazagoraphobia', time: 'à l\'instant' },
-    { name: 'Lucas D.',    initial: 'L', action: 'a réservé Héros de Midgard',         time: 'il y a 3 min' },
-    { name: 'Emma R.',     initial: 'E', action: 'a réservé Athazagoraphobia',          time: 'il y a 7 min' },
-    { name: 'Thomas B.',   initial: 'T', action: 'vient de réserver Ho-Ho-Ho !',        time: 'il y a 12 min' },
-    { name: 'Camille V.',  initial: 'C', action: 'a réservé Héros de Midgard',          time: 'il y a 18 min' },
-    { name: 'Antoine G.',  initial: 'A', action: 'vient de réserver Athazagoraphobia',  time: 'il y a 24 min' },
-    { name: 'Léa F.',      initial: 'L', action: 'a réservé une session team building', time: 'il y a 31 min' },
-  ];
-  var spContainer = document.createElement('div');
-  spContainer.id = 'social-proof-container';
-  document.body.appendChild(spContainer);
-  var spIndex = 0;
-  function showSocialProof() {
-    var d = spData[spIndex % spData.length];
-    spIndex++;
-    var notif = document.createElement('div');
-    notif.className = 'social-proof-notif';
-    notif.innerHTML =
-      '<div class="social-proof-avatar">' + d.initial + '</div>' +
-      '<div class="social-proof-body">' +
-        '<div class="social-proof-name">' + d.name + '</div>' +
-        '<div class="social-proof-action">' + d.action + '</div>' +
-        '<div class="social-proof-time">' + d.time + '</div>' +
-      '</div>';
-    spContainer.appendChild(notif);
-    requestAnimationFrame(() => requestAnimationFrame(() => notif.classList.add('in')));
-    setTimeout(function () {
-      notif.classList.remove('in');
-      notif.classList.add('out');
-      setTimeout(() => notif.remove(), 500);
-    }, 5000);
-  }
-  var spDelay = localStorage.getItem('cookie_consent') ? 6000 : 14000;
-  setTimeout(function loop() {
-    showSocialProof();
-    setTimeout(loop, 40000 + Math.random() * 30000);
-  }, spDelay);
 
   // ---- Schema.org JSON-LD (LocalBusiness) ----
   var schema = {

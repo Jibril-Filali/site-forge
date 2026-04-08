@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.style.background = '#16a34a';
         setTimeout(() => { btn.textContent = orig; btn.disabled = false; btn.style.background = ''; contactForm.reset(); }, 3000);
       } catch {
-        btn.textContent = 'Erreur — réessayez';
+        btn.textContent = 'Erreur, réessayez';
         btn.style.background = '#dc2626';
         setTimeout(() => { btn.textContent = orig; btn.disabled = false; btn.style.background = ''; }, 3000);
       }
