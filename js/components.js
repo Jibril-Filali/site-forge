@@ -5,7 +5,7 @@
    ============================================================ */
 (function () {
   const loaderStart = Date.now();
-  const MIN_MS      = 800;
+  const MIN_MS      = 1800;
 
   const loader = document.createElement('div');
   loader.id = 'page-loader';
@@ -194,4 +194,126 @@ document.addEventListener('DOMContentLoaded', () => {
     const href = link.getAttribute('href');
     if (href && href === currentPage) link.classList.add('active');
   });
+
+  // ---- Retour en haut ----
+  const btt = document.createElement('button');
+  btt.id = 'back-to-top';
+  btt.setAttribute('aria-label', 'Retour en haut');
+  btt.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>';
+  document.body.appendChild(btt);
+  btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  window.addEventListener('scroll', () => {
+    btt.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+
+  // ---- Transition de page ----
+  const pt = document.createElement('div');
+  pt.id = 'page-transition';
+  document.body.appendChild(pt);
+  document.addEventListener('click', function (e) {
+    const link = e.target.closest('a[href]');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('mailto:') ||
+        href.startsWith('tel:') || href.startsWith('http') ||
+        link.target === '_blank') return;
+    e.preventDefault();
+    pt.classList.add('active');
+    setTimeout(() => { window.location.href = href; }, 330);
+  });
+
+  // ---- Bandeau cookies RGPD ----
+  if (!localStorage.getItem('cookie_consent')) {
+    const cb = document.createElement('div');
+    cb.id = 'cookie-banner';
+    cb.innerHTML =
+      '<p class="cookie-text">Nous utilisons des cookies pour améliorer votre expérience de navigation.' +
+      ' En continuant, vous acceptez notre <a href="politique-confidentialite.html">politique de confidentialité</a>.</p>' +
+      '<div class="cookie-btns">' +
+        '<button class="cookie-btn cookie-btn-refuse">Refuser</button>' +
+        '<button class="cookie-btn cookie-btn-accept">Accepter</button>' +
+      '</div>';
+    document.body.appendChild(cb);
+    function dismissCookie(value) {
+      localStorage.setItem('cookie_consent', value);
+      cb.classList.add('dismissed');
+    }
+    cb.querySelector('.cookie-btn-accept').addEventListener('click', () => dismissCookie('accepted'));
+    cb.querySelector('.cookie-btn-refuse').addEventListener('click', () => dismissCookie('refused'));
+  }
+
+  // ---- Social proof ----
+  var spData = [
+    { name: 'Sophie M.',   initial: 'S', action: 'vient de réserver Athazagoraphobia', time: 'à l\'instant' },
+    { name: 'Lucas D.',    initial: 'L', action: 'a réservé Héros de Midgard',         time: 'il y a 3 min' },
+    { name: 'Emma R.',     initial: 'E', action: 'a réservé Athazagoraphobia',          time: 'il y a 7 min' },
+    { name: 'Thomas B.',   initial: 'T', action: 'vient de réserver Ho-Ho-Ho !',        time: 'il y a 12 min' },
+    { name: 'Camille V.',  initial: 'C', action: 'a réservé Héros de Midgard',          time: 'il y a 18 min' },
+    { name: 'Antoine G.',  initial: 'A', action: 'vient de réserver Athazagoraphobia',  time: 'il y a 24 min' },
+    { name: 'Léa F.',      initial: 'L', action: 'a réservé une session team building', time: 'il y a 31 min' },
+  ];
+  var spContainer = document.createElement('div');
+  spContainer.id = 'social-proof-container';
+  document.body.appendChild(spContainer);
+  var spIndex = 0;
+  function showSocialProof() {
+    var d = spData[spIndex % spData.length];
+    spIndex++;
+    var notif = document.createElement('div');
+    notif.className = 'social-proof-notif';
+    notif.innerHTML =
+      '<div class="social-proof-avatar">' + d.initial + '</div>' +
+      '<div class="social-proof-body">' +
+        '<div class="social-proof-name">' + d.name + '</div>' +
+        '<div class="social-proof-action">' + d.action + '</div>' +
+        '<div class="social-proof-time">' + d.time + '</div>' +
+      '</div>';
+    spContainer.appendChild(notif);
+    requestAnimationFrame(() => requestAnimationFrame(() => notif.classList.add('in')));
+    setTimeout(function () {
+      notif.classList.remove('in');
+      notif.classList.add('out');
+      setTimeout(() => notif.remove(), 500);
+    }, 5000);
+  }
+  var spDelay = localStorage.getItem('cookie_consent') ? 6000 : 14000;
+  setTimeout(function loop() {
+    showSocialProof();
+    setTimeout(loop, 40000 + Math.random() * 30000);
+  }, spDelay);
+
+  // ---- Schema.org JSON-LD (LocalBusiness) ----
+  var schema = {
+    '@context': 'https://schema.org',
+    '@type': ['LocalBusiness', 'EntertainmentBusiness'],
+    'name': 'Les Portes de l\'Isba',
+    'image': 'https://lesportesdelisba.fr/images/Logo.jpg',
+    'description': 'Escape game immersif à Troyes. Trois salles pour 2 à 6 joueurs.',
+    '@id': 'https://lesportesdelisba.fr',
+    'url': 'https://lesportesdelisba.fr',
+    'telephone': '+33786284769',
+    'email': 'escape-game@lesportesdelisba.fr',
+    'priceRange': '€€',
+    'address': {
+      '@type': 'PostalAddress',
+      'streetAddress': '1 Route de Cupigny',
+      'addressLocality': 'Creney-près-Troyes',
+      'postalCode': '10150',
+      'addressCountry': 'FR'
+    },
+    'geo': { '@type': 'GeoCoordinates', 'latitude': 48.2967, 'longitude': 4.0942 },
+    'openingHoursSpecification': [
+      { '@type': 'OpeningHoursSpecification', 'dayOfWeek': ['Monday','Thursday','Friday','Saturday','Sunday'], 'opens': '09:30', 'closes': '23:00' },
+      { '@type': 'OpeningHoursSpecification', 'dayOfWeek': ['Tuesday','Wednesday'], 'opens': '00:00', 'closes': '00:00' }
+    ],
+    'sameAs': [
+      'https://www.facebook.com/escapegameLIsba',
+      'https://www.instagram.com/lesportesdelisba'
+    ]
+  };
+  var schemaEl = document.createElement('script');
+  schemaEl.type = 'application/ld+json';
+  schemaEl.textContent = JSON.stringify(schema);
+  document.head.appendChild(schemaEl);
+
 });

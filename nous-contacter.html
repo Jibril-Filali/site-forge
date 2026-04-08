@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://maps.google.com https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://maps.google.com https://www.google.com; connect-src 'self' https://formspree.io; object-src 'none'; base-uri 'self'; form-action 'self' https://formspree.io;">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Contactez Les Portes de l'Isba, escape game à Troyes. Téléphone, email, adresse et formulaire de contact.">
   <title>Nous Contacter — Les Portes de l'Isba</title>
@@ -112,24 +112,24 @@
             <div class="form-row">
               <div class="form-group">
                 <label class="form-label">Prénom *</label>
-                <input type="text" class="form-input" placeholder="Jean" required>
+                <input type="text" name="prenom" class="form-input" placeholder="Jean" required>
               </div>
               <div class="form-group">
                 <label class="form-label">Nom *</label>
-                <input type="text" class="form-input" placeholder="Dupont" required>
+                <input type="text" name="nom" class="form-input" placeholder="Dupont" required>
               </div>
             </div>
             <div class="form-group">
               <label class="form-label">Email *</label>
-              <input type="email" class="form-input" placeholder="jean.dupont@email.fr" required>
+              <input type="email" name="email" class="form-input" placeholder="jean.dupont@email.fr" required>
             </div>
             <div class="form-group">
               <label class="form-label">Téléphone</label>
-              <input type="tel" class="form-input" placeholder="06 12 34 56 78">
+              <input type="tel" name="telephone" class="form-input" placeholder="06 12 34 56 78">
             </div>
             <div class="form-group">
               <label class="form-label">Sujet *</label>
-              <select class="form-select" required>
+              <select name="sujet" class="form-select" required>
                 <option value="">Sélectionnez un sujet</option>
                 <option>Question générale</option>
                 <option>Réservation / disponibilités</option>
@@ -141,7 +141,7 @@
             </div>
             <div class="form-group">
               <label class="form-label">Message *</label>
-              <textarea class="form-textarea" placeholder="Décrivez votre demande..." required></textarea>
+              <textarea name="message" class="form-textarea" placeholder="Décrivez votre demande..." required></textarea>
             </div>
             <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;">
               Envoyer le message

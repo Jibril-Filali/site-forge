@@ -166,26 +166,146 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ---- Formulaire contact ---- */
+  /* ---- Formulaire contact (Formspree) ---- */
   const contactForm = document.getElementById('contact-form');
   if (contactForm) {
-    contactForm.addEventListener('submit', e => {
+    // Remplacez XXXXXXXX par votre ID Formspree (formspree.io)
+    const FORMSPREE = 'https://formspree.io/f/XXXXXXXX';
+    const isConfigured = !FORMSPREE.includes('XXXXXXXX');
+
+    contactForm.addEventListener('submit', async e => {
       e.preventDefault();
       const btn = contactForm.querySelector('[type="submit"]');
-      const originalText = btn.textContent;
-      btn.textContent = 'Envoi...';
+      const orig = btn.textContent;
+      btn.textContent = 'Envoi en cours...';
       btn.disabled = true;
 
-      setTimeout(() => {
+      if (!isConfigured) {
+        // Mode démo — simule l'envoi
+        await new Promise(r => setTimeout(r, 1200));
         btn.textContent = 'Message envoyé !';
         btn.style.background = '#16a34a';
-        setTimeout(() => {
-          btn.textContent = originalText;
-          btn.disabled = false;
-          btn.style.background = '';
-          contactForm.reset();
-        }, 3000);
-      }, 1200);
+        setTimeout(() => { btn.textContent = orig; btn.disabled = false; btn.style.background = ''; contactForm.reset(); }, 3000);
+        return;
+      }
+
+      try {
+        const res = await fetch(FORMSPREE, {
+          method: 'POST',
+          body: new FormData(contactForm),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (!res.ok) throw new Error();
+        btn.textContent = 'Message envoyé !';
+        btn.style.background = '#16a34a';
+        setTimeout(() => { btn.textContent = orig; btn.disabled = false; btn.style.background = ''; contactForm.reset(); }, 3000);
+      } catch {
+        btn.textContent = 'Erreur — réessayez';
+        btn.style.background = '#dc2626';
+        setTimeout(() => { btn.textContent = orig; btn.disabled = false; btn.style.background = ''; }, 3000);
+      }
+    });
+  }
+
+  /* ---- Parallaxe hero ---- */
+  const heroContent = document.querySelector('.hero-content');
+  if (heroContent) {
+    window.addEventListener('scroll', () => {
+      heroContent.style.transform = 'translateY(' + (window.scrollY * 0.13) + 'px)';
+    }, { passive: true });
+  }
+
+  /* ---- Particules hero ---- */
+  const heroSection = document.querySelector('.hero');
+  if (heroSection && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    for (let i = 0; i < 28; i++) {
+      const p = document.createElement('div');
+      p.className = 'hero-particle';
+      const size = 2 + Math.random() * 3;
+      const isGold = Math.random() > 0.4;
+      p.style.cssText =
+        'width:' + size + 'px;height:' + size + 'px;' +
+        'left:' + (Math.random() * 100) + '%;' +
+        'bottom:' + (Math.random() * 60) + '%;' +
+        'background:' + (isGold ? 'rgba(189,138,30,' : 'rgba(164,100,151,') + (0.3 + Math.random() * 0.5) + ');' +
+        'animation-duration:' + (5 + Math.random() * 8) + 's;' +
+        'animation-delay:' + (Math.random() * 6) + 's;' +
+        '--tx:' + (-20 + Math.random() * 40) + 'px;';
+      heroSection.appendChild(p);
+    }
+  }
+
+  /* ---- Badge prochain créneau (index uniquement) ---- */
+  const heroBtns = document.querySelector('.hero-btns');
+  if (heroBtns) {
+    const schedule = [
+      { day: 0, opens: 9.5,  closes: 23 },
+      { day: 1, opens: 9.5,  closes: 23 },
+      { day: 4, opens: 9.5,  closes: 23 },
+      { day: 5, opens: 9.5,  closes: 23 },
+      { day: 6, opens: 9.5,  closes: 23 },
+    ];
+    const dayNames = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+    const now = new Date();
+    const today = now.getDay();
+    const nowH = now.getHours() + now.getMinutes() / 60;
+
+    let label = '';
+    for (let i = 0; i < 7; i++) {
+      const d = (today + i) % 7;
+      const slot = schedule.find(s => s.day === d);
+      if (!slot) continue;
+      if (i === 0 && nowH >= slot.opens && nowH < slot.closes) { label = 'Ouvert maintenant'; break; }
+      if (i === 0 && nowH < slot.opens) { label = 'Aujourd\'hui à 09h30'; break; }
+      if (i === 1) { label = 'Demain à 09h30'; break; }
+      label = dayNames[d] + ' à 09h30'; break;
+    }
+
+    if (label) {
+      const badge = document.createElement('div');
+      badge.id = 'next-slot-badge';
+      badge.innerHTML = '<span class="next-slot-dot"></span>' + label;
+      heroBtns.after(badge);
+    }
+  }
+
+  /* ---- Lightbox ---- */
+  const lbTriggers = document.querySelectorAll('[data-lightbox]');
+  if (lbTriggers.length) {
+    const lb      = document.createElement('div');
+    lb.id = 'lightbox';
+    const lbImg   = document.createElement('img'); lbImg.id = 'lightbox-img';
+    const lbClose = document.createElement('div'); lbClose.id = 'lightbox-close'; lbClose.textContent = '×';
+    const lbPrev  = document.createElement('div'); lbPrev.id  = 'lightbox-prev';  lbPrev.className = 'lightbox-nav'; lbPrev.innerHTML = '&#8249;';
+    const lbNext  = document.createElement('div'); lbNext.id  = 'lightbox-next';  lbNext.className = 'lightbox-nav'; lbNext.innerHTML = '&#8250;';
+    const lbCap   = document.createElement('div'); lbCap.id   = 'lightbox-caption';
+    lb.append(lbClose, lbPrev, lbImg, lbNext, lbCap);
+    document.body.appendChild(lb);
+
+    const images = Array.from(lbTriggers);
+    let current = 0;
+
+    function openLb(idx) {
+      current = idx;
+      lbImg.src = images[idx].src;
+      lbCap.textContent = images[idx].alt || '';
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      lbPrev.style.display = images.length > 1 ? '' : 'none';
+      lbNext.style.display = images.length > 1 ? '' : 'none';
+    }
+    function closeLb() { lb.classList.remove('open'); document.body.style.overflow = ''; }
+
+    images.forEach((img, i) => { img.classList.add('lightbox-trigger'); img.addEventListener('click', () => openLb(i)); });
+    lbClose.addEventListener('click', closeLb);
+    lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+    lbPrev.addEventListener('click', () => openLb((current - 1 + images.length) % images.length));
+    lbNext.addEventListener('click', () => openLb((current + 1) % images.length));
+    document.addEventListener('keydown', e => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLb();
+      if (e.key === 'ArrowLeft')  lbPrev.click();
+      if (e.key === 'ArrowRight') lbNext.click();
     });
   }
 
