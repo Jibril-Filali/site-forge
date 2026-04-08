@@ -91,10 +91,12 @@ const FOOTER_HTML = `
       <div>
         <p class="footer-col-title">À propos</p>
         <div class="footer-links">
-          <a href="qui-sommes-nous.html" class="footer-link">Qui sommes-nous ?</a>
-          <a href="histoire-isba.html"   class="footer-link">Histoire de l'Isba</a>
-          <a href="nous-contacter.html"  class="footer-link">Nous contacter</a>
-          <a href="nos-horaires.html"    class="footer-link">Nos horaires</a>
+          <a href="qui-sommes-nous.html"          class="footer-link">Qui sommes-nous ?</a>
+          <a href="histoire-isba.html"           class="footer-link">Histoire de l'Isba</a>
+          <a href="nous-contacter.html"          class="footer-link">Nous contacter</a>
+          <a href="nos-horaires.html"            class="footer-link">Nos horaires</a>
+          <a href="cgv.html"                     class="footer-link">CGV</a>
+          <a href="politique-confidentialite.html" class="footer-link">Politique de confidentialité</a>
         </div>
       </div>
 
